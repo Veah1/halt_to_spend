@@ -1014,8 +1014,7 @@ document.getElementById('sidebarBackdrop').onclick = closeSidebar;
 document.getElementById('closeModalBtn').onclick = () => document.getElementById('detailModal').classList.add('hidden');
 document.getElementById('detailModal').onclick = (e) => { if (e.target.id === 'detailModal') e.currentTarget.classList.add('hidden'); };
 document.querySelectorAll('[data-nav]').forEach(btn => { btn.onclick = () => navigate(btn.dataset.nav); });
-document.querySelector
-All('[data-cat]').forEach(btn => { btn.onclick = () => navigate('catalog', { category: btn.dataset.cat }); });
+document.querySelectorAll('[data-cat]').forEach(btn => { btn.onclick = () => navigate('catalog', { category: btn.dataset.cat }); });
 document.querySelectorAll('[data-side-group]').forEach(btn => {
   btn.onclick = () => { const g = HAIR_GROUPS.find(x => x.id === btn.dataset.sideGroup); navigate('groups', { groupId: g.id, typeCode: g.types[0].code, groupSubTab: 'products' }); };
 });
