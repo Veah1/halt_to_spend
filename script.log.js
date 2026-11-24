@@ -1,4 +1,3 @@
-// =========================================================================
 // ROOTED — SUPABASE + GITHUB READY SCRIPT.LOG.JS
 // =========================================================================
 const SUPABASE_URL = 'https://ewusvjnpttqwjtdlrgtz.supabase.co';
