@@ -1,125 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shelter & Outreach Coordination Network</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Purpose Vision &amp; Scripted — Royal Hair Science</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            obsidian: '#0F0D12',
+            velvet: '#1B1720',
+            ivory: '#FBF8F2',
+            champagne: '#F4EDE0',
+            royalGold: '#C99E32',
+            goldBright: '#E3BE5C',
+            goldSoft: '#FAF2DA',
+            borderGold: '#E6D8B8'
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-  <header>
-    <h1>Community & Shelter Support Network</h1>
-    <p>Bridging direct community support and shelter operations</p>
-  </header>
+  <!-- Mobile Drawer Backdrop -->
+  <div id="sidebarBackdrop" class="fixed inset-0 z-50 bg-black/50 hidden md:hidden"></div>
 
-  <nav role="tablist" aria-label="Portal Navigation">
-    <button class="nav-btn active" role="tab" aria-selected="true" aria-controls="public-tab" id="tab-1" onclick="switchTab('public-tab', 'tab-1')">Public Outreach Form</button>
-    <button class="nav-btn" role="tab" aria-selected="false" aria-controls="shelter-tab" id="tab-2" onclick="switchTab('shelter-tab', 'tab-2')">Shelter Staff Portal</button>
-    <button class="nav-btn" role="tab" aria-selected="false" aria-controls="tracker-tab" id="tab-3" onclick="switchTab('tracker-tab', 'tab-3')">Status Tracker</button>
-  </nav>
-
-  <main>
-    <!-- TAB 1: Public Outreach Form -->
-    <section id="public-tab" class="tab-content active" role="tabpanel" aria-labelledby="tab-1">
-      <h2>Report an Individual Needing Outreach Assistance</h2>
-      <p class="section-desc">Submit location and basic detail so our mobile team can direct health care, hygiene, and shelter support.</p>
-      
-      <div id="public-alert" class="alert-success" role="alert">Report submitted successfully! Track progress in the Status Tracker tab.</div>
-
-      <form id="public-form" onsubmit="handleFormSubmit(event, 'Public Outreach Request', 'public-alert')">
-        <div class="form-group">
-          <label for="location">Location / Cross Streets *</label>
-          <input type="text" id="location" required placeholder="e.g., 5th Ave and Main St, near the park bench">
-        </div>
-
-        <div class="form-group">
-          <label for="primary-need">Primary Need Identified *</label>
-          <select id="primary-need" required>
-            <option value="">Select a service category...</option>
-            <option value="Hygiene & Physical Restoration">Hygiene & Physical Restoration</option>
-            <option value="Medical / Health Care">Medical / Health Care</option>
-            <option value="Emergency Shelter Intake">Emergency Shelter Intake</option>
-            <option value="Employment Pathways / Training">Employment Pathways / Training</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="description">Physical Description & Additional Notes *</label>
-          <textarea id="description" required placeholder="Brief description (clothing, identifiable markers) and immediate observations..."></textarea>
-        </div>
-
-        <button type="submit" class="btn-submit">Submit Outreach Request</button>
-      </form>
-    </section>
-
-    <!-- TAB 2: Shelter Staff Portal -->
-    <section id="shelter-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-2">
-      <h2>Shelter Staff & Case Manager Portal</h2>
-      <p class="section-desc">Log facility updates, request partner resources, or communicate operational concerns directly.</p>
-
-      <div id="shelter-alert" class="alert-success" role="alert">Shelter report logged! Our coordination team has been notified.</div>
-
-      <form id="shelter-form" onsubmit="handleFormSubmit(event, 'Shelter Resource Request', 'shelter-alert')">
-        <div class="form-group">
-          <label for="shelter-name">Facility Name *</label>
-          <input type="text" id="shelter-name" required placeholder="e.g., Downtown Hope Center">
-        </div>
-
-        <div class="form-group">
-          <label for="staff-role">Your Role / Title *</label>
-          <input type="text" id="staff-role" required placeholder="e.g., Lead Case Manager">
-        </div>
-
-        <div class="form-group">
-          <label for="request-type">Request / Report Category *</label>
-          <select id="request-type" required>
-            <option value="">Select category...</option>
-            <option value="On-site Grooming / Hygiene Unit">On-site Grooming / Hygiene Unit</option>
-            <option value="Job Placement / Corporate Partner Connection">Job Placement / Corporate Partner Connection</option>
-            <option value="Facility Capacity & Operational Support">Facility Capacity & Operational Support</option>
-            <option value="Health & Medical Care Referral">Health & Medical Care Referral</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="details">Operational Concerns / Request Details *</label>
-          <textarea id="details" required placeholder="Describe specific resource gaps, number of residents affected, or operational needs..."></textarea>
-        </div>
-
-        <button type="submit" class="btn-submit">Log Shelter Submission</button>
-      </form>
-    </section>
-
-    <!-- TAB 3: Request Status Tracker -->
-    <section id="tracker-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-3">
-      <h2>Live Request Status Tracker</h2>
-      <p class="section-desc">Real-time tracking for active public outreach requests and shelter resource requests.</p>
-
-      <div id="tracker-list">
-        <div class="status-card">
-          <div class="status-header">
-            <span class="status-id">REQ-1042</span>
-            <span class="badge badge-in-progress">In Progress</span>
+  <div class="flex-1 flex min-h-screen">
+    <!-- Left Sidebar -->
+    <aside id="appSidebar" class="fixed md:sticky top-0 left-0 z-50 h-screen w-72 bg-obsidian text-white border-r border-royalGold/30 flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-out shrink-0">
+      <div class="h-16 px-4 border-b border-royalGold/25 flex items-center justify-between gap-2">
+        <button id="brandBtn" class="flex items-center gap-2.5 text-left tap-target" type="button">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#E3BE5C] via-[#C99E32] to-[#8C6818] text-obsidian flex items-center justify-center shadow-sm shrink-0">
+            <i data-lucide="crown" class="w-5 h-5"></i>
           </div>
-          <strong class="card-title">Public Outreach Request</strong>
-          <p class="card-sub">Location: 4th St & Broadway | Need: Hygiene & Mobile Care</p>
-          <p class="card-meta"><em>Status Update: Mobile team scheduled for direct check-in today.</em></p>
+          <div>
+            <span class="font-bold text-sm tracking-tight block leading-tight text-goldBright">Purpose Vision &amp; Scripted</span>
+            <span class="text-[11px] text-stone-400 font-medium">Royal Care · All 12 Types</span>
+          </div>
+        </button>
+        <button id="closeSidebarBtn" type="button" class="md:hidden w-9 h-9 rounded-xl bg-velvet text-goldBright flex items-center justify-center tap-target" aria-label="Close menu">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-3.5 space-y-5">
+        <div>
+          <div class="px-2.5 text-[11px] font-bold uppercase tracking-wider text-goldBright/70 mb-1.5">Explore</div>
+          <nav class="space-y-1" aria-label="Main navigation">
+            <button data-nav="home" class="side-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition">
+              <i data-lucide="home" class="w-4 h-4 shrink-0"></i><span>Home</span>
+            </button>
+            <button data-nav="kits" class="side-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition">
+              <i data-lucide="package" class="w-4 h-4 shrink-0"></i><span>Whole-Set Packages</span>
+            </button>
+            <button data-nav="exclusive" class="side-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition">
+              <i data-lucide="lock-keyhole" class="w-4 h-4 shrink-0"></i><span>My Kit Results</span>
+            </button>
+            <button data-nav="ai" class="side-nav-btn w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition">
+              <i data-lucide="sparkles" class="w-4 h-4 shrink-0 text-goldBright"></i><span>Ask Hair AI (Gemini)</span>
+            </button>
+          </nav>
         </div>
 
-        <div class="status-card">
-          <div class="status-header">
-            <span class="status-id">REQ-1041</span>
-            <span class="badge badge-pending">Pending Review</span>
+        <div>
+          <div class="px-2.5 text-[11px] font-bold uppercase tracking-wider text-goldBright/70 mb-1.5">Hair Types (4 Groups)</div>
+          <div class="space-y-1">
+            <button data-side-group="straight" class="group-side-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition"><span>Straight Hair (1A–1C)</span><i data-lucide="chevron-right" class="w-3.5 h-3.5 opacity-60"></i></button>
+            <button data-side-group="wavy" class="group-side-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition"><span>Wavy Hair (2A–2C)</span><i data-lucide="chevron-right" class="w-3.5 h-3.5 opacity-60"></i></button>
+            <button data-side-group="curly" class="group-side-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition"><span>Curly Hair (3A–3C)</span><i data-lucide="chevron-right" class="w-3.5 h-3.5 opacity-60"></i></button>
+            <button data-side-group="coily" class="group-side-btn w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition"><span>Coily Hair (4A–4C)</span><i data-lucide="chevron-right" class="w-3.5 h-3.5 opacity-60"></i></button>
           </div>
-          <strong class="card-title">Shelter Resource Request</strong>
-          <p class="card-sub">Facility: Eastside Haven Shelter | Need: Job Placement Partner Pipeline</p>
-          <p class="card-meta"><em>Status Update: Received. Account manager assigned to contact shelter lead.</em></p>
+        </div>
+
+        <div>
+          <div class="px-2.5 text-[11px] font-bold uppercase tracking-wider text-goldBright/70 mb-1.5">Shop Essentials</div>
+          <div class="space-y-1">
+            <button data-cat="all" class="cat-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition"><i data-lucide="grid" class="w-3.5 h-3.5 text-goldBright"></i><span class="flex-1 text-left">All Hair Essentials</span><span class="text-[10px] px-1.5 py-0.5 rounded-md bg-royalGold/20 text-goldBright">8</span></button>
+            <button data-cat="Shampoo" class="cat-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition"><i data-lucide="droplets" class="w-3.5 h-3.5 text-goldBright"></i><span>Shampoo</span></button>
+            <button data-cat="Conditioner" class="cat-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition"><i data-lucide="waves" class="w-3.5 h-3.5 text-goldBright"></i><span>Conditioner</span></button>
+            <button data-cat="Leave-In Conditioner" class="cat-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition"><i data-lucide="spray-can" class="w-3.5 h-3.5 text-goldBright"></i><span>Leave-In Conditioner</span></button>
+            <button data-cat="Heat Protectant" class="cat-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition"><i data-lucide="flame" class="w-3.5 h-3.5 text-goldBright"></i><span>Heat Protectant</span></button>
+            <button data-cat="Hair Cream" class="cat-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition"><i data-lucide="cloud" class="w-3.5 h-3.5 text-goldBright"></i><span>Hair Cream</span></button>
+            <button data-cat="Hair Mask" class="cat-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition"><i data-lucide="heart-handshake" class="w-3.5 h-3.5 text-goldBright"></i><span>Hair Masks</span></button>
+            <button data-cat="Hair Oil" class="cat-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-goldBright"></i><span>Hair Oil &amp; Serum</span></button>
+          </div>
         </div>
       </div>
-    </section>
-  </main>
 
-  <script src="script.log.js"></script>
+      <div class="p-3.5 border-t border-royalGold/25 bg-velvet">
+        <div class="text-[11px] text-stone-400">Saved Hair Profile</div>
+        <div id="sidebarProfileSummary" class="text-xs font-bold text-goldBright mt-0.5">Type 3B · Medium Porosity</div>
+      </div>
+    </aside>
+
+    <!-- Right Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 pb-24 md:pb-8">
+      <header class="sticky top-0 z-30 royal-glass border-b border-borderGold">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <button id="openSidebarBtn" type="button" class="md:hidden w-10 h-10 rounded-xl bg-obsidian text-goldBright flex items-center justify-center tap-target" aria-label="Open menu">
+              <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+            <span class="md:hidden font-bold text-sm text-obsidian truncate">Purpose Vision &amp; Scripted</span>
+            <span id="pageHeaderTitle" class="hidden md:inline font-bold text-sm text-obsidian">Home</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="headerAiBtn" type="button" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-goldSoft text-obsidian text-xs font-semibold border border-borderGold hover:bg-champagne transition tap-target">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-royalGold"></i><span>Ask Hair AI</span>
+            </button>
+            <button id="headerAuthBtn" type="button" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-obsidian text-xs font-semibold border border-borderGold hover:bg-goldSoft transition tap-target">
+              <i data-lucide="user" class="w-3.5 h-3.5 text-royalGold"></i><span id="headerAuthText">Log In</span>
+            </button>
+            <button id="headerBagBtn" type="button" class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-obsidian text-goldBright hover:bg-velvet transition tap-target border border-royalGold/40" aria-label="Open shopping bag">
+              <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+              <span id="bagCountBadge" class="hidden absolute -top-1 -right-1 w-5 h-5 rounded-full bg-royalGold text-obsidian text-[11px] font-bold flex items-center justify-center">0</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main id="appMain" class="flex-1 max-w-4xl w-full mx-auto px-4 pt-5 pb-6"></main>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 z-30 bg-obsidian text-white border-t border-royalGold/30 px-2 py-1.5" aria-label="Mobile bottom navigation">
+    <div class="grid grid-cols-5 gap-1 max-w-md mx-auto">
+      <button data-nav="home" class="mobile-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-[11px] font-medium transition"><i data-lucide="home" class="w-5 h-5 mb-0.5"></i><span>Home</span></button>
+      <button data-nav="groups" class="mobile-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-[11px] font-medium transition"><i data-lucide="users" class="w-5 h-5 mb-0.5"></i><span>Hair Types</span></button>
+      <button data-nav="kits" class="mobile-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-[11px] font-medium transition"><i data-lucide="package" class="w-5 h-5 mb-0.5"></i><span>Packages</span></button>
+      <button data-nav="ai" class="mobile-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-[11px] font-medium transition"><i data-lucide="sparkles" class="w-5 h-5 mb-0.5"></i><span>Hair AI</span></button>
+      <button data-nav="bag" class="mobile-nav-btn relative flex flex-col items-center justify-center py-1.5 rounded-xl text-[11px] font-medium transition">
+        <i data-lucide="shopping-bag" class="w-5 h-5 mb-0.5"></i><span>Bag</span>
+        <span id="mobileBagDot" class="hidden absolute top-1 right-3 w-4 h-4 rounded-full bg-royalGold text-obsidian text-[10px] font-bold flex items-center justify-center">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- In-page Toast -->
+  <div id="toast" class="fixed bottom-24 md:bottom-6 left-1/2 -translate-x-1/2 z-50 hidden bg-obsidian text-goldBright border border-royalGold/50 text-sm font-medium px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 max-w-[90vw]">
+    <i data-lucide="crown" class="w-4 h-4 text-royalGold shrink-0"></i>
+    <span id="toastText">Saved</span>
+  </div>
+
+  <!-- Product Modal -->
+  <div id="detailModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center p-0 md:p-4">
+    <div class="bg-white w-full md:max-w-lg rounded-t-3xl md:rounded-3xl p-5 md:p-6 max-h-[88vh] overflow-y-auto shadow-2xl border border-borderGold">
+      <div class="flex items-start justify-between gap-3 mb-4">
+        <div>
+          <span id="modalBadge" class="inline-block px-2.5 py-1 rounded-full text-xs font-semibold bg-goldSoft text-obsidian border border-borderGold mb-1.5">Confidence Match</span>
+          <h3 id="modalTitle" class="text-xl font-bold text-obsidian">Product Name</h3>
+        </div>
+        <button id="closeModalBtn" type="button" class="w-9 h-9 rounded-full bg-champagne flex items-center justify-center text-obsidian hover:bg-borderGold tap-target" aria-label="Close modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div id="modalBody" class="space-y-4 text-sm text-stone-700"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
